@@ -2,7 +2,7 @@
 
 function [] = set_MR_param(file_handle)
 	
-	image_dimension = file_handle.hdr.dime.dim(2 : 5)
+	image_dimension = file_handle.hdr.dime.dim(2 : 5);
 
 	% Update the MR parameters in param_MR.mat file
 	load('param_MR.mat')
