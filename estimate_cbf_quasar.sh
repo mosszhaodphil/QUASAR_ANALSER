@@ -14,16 +14,22 @@ current_time=$(date +%H%M%S)
 out_dir_mbased="$current_time"_mbased
 out_cbf_mbased=perfusion_"$current_time"_mbased
 out_abv_mbased=abv_"$current_time"_mbased
+out_phi_mbased=phi_"$current_time"_mbased
+out_the_mbased=the_"$current_time"_mbased
 
 
 # Model fitting
-# fabber --data=$file_data --data-order=singlefile --output=$out_dir_mbased -@ $file_option
+fabber --data=$file_data --data-order=singlefile --output=$out_dir_mbased -@ $file_option
 
 # Rescale CBF to ml/100g/min unit
-#fslmaths $out_dir_mbased/mean_ftiss -mul 6000 $out_cbf_mbased
+fslmaths $out_dir_mbased/mean_ftiss -mul 6000 $out_cbf_mbased
 
 # Rescale ABV to percentage
-#fslmaths $out_dir_mbased/mean_fblood -mul 100 $out_abv_mbased
+fslmaths $out_dir_mbased/mean_fblood -mul 100 $out_abv_mbased
+
+# Rescale estimated flow suppression angles
+fslmaths $out_dir_mbased/mean_phiblood -mul 1000000 $out_phi_mbased
+fslmaths $out_dir_mbased/mean_thblood -mul 1000000 $out_the_mbased
 
 echo "Model based analysis finished."
 
